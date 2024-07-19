@@ -54,11 +54,6 @@ class Scanner:
             self.add_token("SEMICOLON")
         elif char == "*":
             self.add_token("STAR")
-        elif char == "!":
-            if self.match("="):
-                self.add_token("NOT_EQUAL")
-            else:
-                self.error(f"Unexpected character: {char}")
         elif char == "=":
             if self.match("="):
                 self.add_token("EQUAL_EQUAL")
