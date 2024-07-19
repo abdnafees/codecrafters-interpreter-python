@@ -40,6 +40,10 @@ def main():
             print("MINUS - null")
         elif c == ";":
             print("SEMICOLON ; null")
+        elif c == "#":
+            print("Error: Unexpected character: #")
+        elif c == "$":
+            print("Error: Unexpected character: $")
     print("EOF  null")
 
 
