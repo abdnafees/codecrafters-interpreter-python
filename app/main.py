@@ -18,7 +18,7 @@ def main():
 
     with open(filename) as file:
         file_contents = file.read()
-
+    error = False
     for c in file_contents:
         if c == "(":
             print("LEFT_PAREN ( null")
@@ -40,14 +40,18 @@ def main():
             print("MINUS - null")
         elif c == ";":
             print("SEMICOLON ; null")
-        elif c == "#":
-            print("Error: Unexpected character: #")
-        elif c == "$":
-            print("Error: Unexpected character: $")
-        elif c == "@":
-            print("Error: Unexpected character: @")
-    print("EOF  null")
-
+        else:
+            error = True
+            line_number = file_contents.count("\n", 0, file_contents.find(token)) + 1
+            print(
+                "[line %s] Error: Unexpected character: %s" % (line_number, token),
+                file=sys.stderr,
+            )
+        print("EOF  null")
+    if error:
+        exit(65)
+    else:
+        exit(0)
 
 if __name__ == "__main__":
     main()
