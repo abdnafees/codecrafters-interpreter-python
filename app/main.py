@@ -74,6 +74,11 @@ class Scanner:
                 self.add_token("GREATER_EQUAL")
             else:
                 self.add_token("GREATER")
+        elif char == "!":
+            if self.match("="):
+                self.add_token("BANG_EQUAL")
+            else:
+                self.add_token("BANG")
         else:
             self.error(f"Unexpected character: {char}")
 
