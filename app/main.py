@@ -42,16 +42,16 @@ def main():
             print("SEMICOLON ; null")
         else:
             error = True
-            line_number = file_contents.count("\n", 0, file_contents.find(token)) + 1
+            line_number = file_contents.count("\n", 0, file_contents.find(c)) + 1
             print(
-                "[line %s] Error: Unexpected character: %s" % (line_number, token),
+                "[line %s] Error: Unexpected character: %s" % (line_number, c),
                 file=sys.stderr,
             )
-            if error:
-                exit(65)
-            else:
-                exit(0)
-        print("EOF  null")
+    print("EOF  null")
+    if error:
+        exit(65)
+    else:
+        exit(0)
 
 if __name__ == "__main__":
     main()
