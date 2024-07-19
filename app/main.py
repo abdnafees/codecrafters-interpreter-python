@@ -38,6 +38,8 @@ def main():
             print("PLUS + null")
         elif c == "-":
             print("MINUS - null")
+        elif c == ";":
+            print("SEMICOLON ; null")
     print("EOF  null")
 
 
