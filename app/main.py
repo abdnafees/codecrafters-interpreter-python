@@ -44,6 +44,8 @@ def main():
             print("Error: Unexpected character: #")
         elif c == "$":
             print("Error: Unexpected character: $")
+        elif c == "@":
+            print("Error: Unexpected character: @")
     print("EOF  null")
 
 
