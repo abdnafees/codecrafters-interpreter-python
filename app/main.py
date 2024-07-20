@@ -56,7 +56,7 @@ class Scanner:
             self.add_token("STAR")
         elif char == "!":
             if self.match("="):
-                self.add_token("NOT_EQUAL")
+                self.add_token("BANG_EQUAL")
             else:
                 self.add_token("BANG")
         elif char == "=":
