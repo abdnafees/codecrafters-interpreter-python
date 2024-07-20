@@ -87,8 +87,28 @@ class Scanner:
             pass
         elif char == '"':
             self.string()
+        elif char.isdigit():
+            self.number()
         else:
             self.error(f"Unexpected character: {char}")
+
+    def is_digit(self, char):
+        return '0' <= char <= '9'
+
+    def number(self):
+        while self.is_digit(self.peek()):
+            self.advance()
+
+        # Look for a fractional part.
+        if self.peek() == '.' and self.is_digit(self.peek_next()):
+            # Consume the "."
+            self.advance()
+
+            while self.is_digit(self.peek()):
+                self.advance()
+
+        value = float(self.source[self.start:self.current])
+        self.add_token("NUMBER", value)
 
     def string(self):
         while self.peek() != '"' and not self.is_at_end():
