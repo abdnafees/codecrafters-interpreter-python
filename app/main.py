@@ -54,6 +54,11 @@ class Scanner:
             self.add_token("SEMICOLON")
         elif char == "*":
             self.add_token("STAR")
+        elif char == "!":
+            if self.match("="):
+                self.add_token("NOT_EQUAL")
+            else:
+                self.add_token("BANG")
         elif char == "=":
             if self.match("="):
                 self.add_token("EQUAL_EQUAL")
@@ -69,11 +74,15 @@ class Scanner:
                 self.add_token("GREATER_EQUAL")
             else:
                 self.add_token("GREATER")
-        elif char == "!":
-            if self.match("="):
-                self.add_token("BANG_EQUAL")
+        elif char == "/":
+            if self.match("/"):
+                # Single-line comment
+                while self.peek() != '\n' and not self.is_at_end():
+                    self.advance()
             else:
-                self.add_token("BANG")
+                self.add_token("SLASH")
+        elif char == "\n":
+            self.line += 1
         else:
             self.error(f"Unexpected character: {char}")
 
@@ -88,6 +97,11 @@ class Scanner:
     def advance(self):
         self.current += 1
         return self.source[self.current - 1]
+
+    def peek(self):
+        if self.is_at_end():
+            return '\0'
+        return self.source[self.current]
 
     def add_token(self, type, literal=None):
         text = self.source[self.start:self.current]
