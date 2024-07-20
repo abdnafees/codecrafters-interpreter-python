@@ -85,9 +85,27 @@ class Scanner:
             self.line += 1
         elif char == " " or char == "\r" or char == "\t":
             pass
+        elif char == '"':
+            self.string()
         else:
             self.error(f"Unexpected character: {char}")
 
+    def string(self):
+        while self.peek() != '"' and not self.is_at_end():
+            if self.peek() == '\n':
+                self.line += 1
+            self.advance()
+
+        if self.is_at_end():
+            self.error("Unterminated string.")
+            return
+
+        # The closing ".
+        self.advance()
+
+        # Trim the surrounding quotes.
+        value = self.source[self.start + 1:self.current - 1]
+        self.add_token("STRING", value)
 
     def match(self, expected):
         if self.is_at_end():
