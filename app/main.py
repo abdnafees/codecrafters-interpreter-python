@@ -83,8 +83,11 @@ class Scanner:
                 self.add_token("SLASH")
         elif char == "\n":
             self.line += 1
+        elif char == " " or char == "\r" or char == "\t":
+            pass
         else:
             self.error(f"Unexpected character: {char}")
+
 
     def match(self, expected):
         if self.is_at_end():
