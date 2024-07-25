@@ -14,6 +14,26 @@ class Token:
 
 
 class Scanner:
+    # Define reserved words
+    reserved_words = {
+        "and": "AND",
+        "class": "CLASS",
+        "else": "ELSE",
+        "false": "FALSE",
+        "for": "FOR",
+        "fun": "FUN",
+        "if": "IF",
+        "nil": "NIL",
+        "or": "OR",
+        "print": "PRINT",
+        "return": "RETURN",
+        "super": "SUPER",
+        "this": "THIS",
+        "true": "TRUE",
+        "var": "VAR",
+        "while": "WHILE",
+    }
+
     def __init__(self, source):
         self.source = source
         self.tokens = []
@@ -89,6 +109,8 @@ class Scanner:
             self.string()
         elif char.isdigit():
             self.number()
+        elif self.is_alpha(char):
+            self.identifier()
         else:
             self.error(f"Unexpected character: {char}")
 
@@ -152,6 +174,19 @@ class Scanner:
     def add_token(self, type, literal=None):
         text = self.source[self.start:self.current]
         self.tokens.append(Token(type, text, literal, self.line))
+
+    def is_alpha(self, char: str) -> bool:
+        return "a" <= char <= "z" or "A" <= char <= "Z" or char == "_"
+
+    def is_alpha_numeric(self, char: str) -> bool:
+        return self.is_alpha(char) or self.is_digit(char)
+
+    def identifier(self) -> None:
+        while self.is_alpha_numeric(self.peek()):
+            self.advance()
+        text = self.source[self.start:self.current]
+        token_type = self.reserved_words.get(text, "IDENTIFIER")
+        self.add_token(token_type)
 
     def error(self, message):
         self.errors.append(f"[line {self.line}] Error: {message}")
